@@ -1,0 +1,54 @@
+# Though we're profiling from the ENV layer but still we may need different type of config for each profile
+server:
+  port: 0
+  servlet:
+    context-path: /
+weather:
+  api:
+    key: ${WEATHER_API_KEY}
+quote:
+  api:
+    key: ${QUOTE_API}
+jwt:
+  secrete_key: ${JWT_SECRETE_KEY}
+spring:
+  data:
+    mongodb:
+      # This, Redis and Kafka are Const to local since we will test via Test Container locally
+      uri: mongodb://localhost:27017
+      database: journaldb_test
+      auto-index-creation: true
+  redis:
+    host: localhost
+    port: 6379
+  mail:
+    host: ${JAVA_EMAIL_HOST}
+    port: ${JAVA_EMAIL_PORT}
+    username: ${JAVA_EMAIL_ADDRESS}
+    password: ${JAVA_EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: weekly-sentiment-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.mohithasan.journalapp.model
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+
