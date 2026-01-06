@@ -1,4 +1,4 @@
-# Journal App
+# Journal App Spring Boot
 
 ## Overview
 
